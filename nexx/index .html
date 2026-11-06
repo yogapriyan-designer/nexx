@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexora Solutions | Ideas • Technology • Impact</title>
+    <style>
+         :root {
+            --blue: #1a56db;
+            --blue-2: #3b8bff;
+            --ink: #0f1b33;
+            --muted: #5b6b86;
+            --bg: #ffffff;
+            --alt: #f3f7ff;
+            --line: #dbe6fb;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+        
+        html {
+            scroll-behavior: smooth
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: var(--ink);
+            background: var(--bg);
+            line-height: 1.6
+        }
+        
+        body.loading {
+            overflow: hidden
+        }
+        
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+        
+        .hidden {
+            display: none !important
+        }
+        /* ===== Intro ===== */
+        
+        #intro {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: #02050d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform .9s cubic-bezier(.7, 0, .2, 1)
+        }
+        
+        #intro.hide {
+            transform: translateY(-100%)
+        }
+        
+        .intro-inner {
+            text-align: center
+        }
+        
+        .logo-wrap {
+            position: relative;
+            width: min(460px, 80vw);
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+        
+        .intro-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            mix-blend-mode: screen;
+            opacity: 0;
+            transform: scale(.55);
+            filter: blur(14px);
+            animation: logoIn 1.6s cubic-bezier(.2, .8, .2, 1) .3s forwards
+        }
+        
+        .ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-top-color: #3b8bff;
+            border-bottom-color: rgba(59, 139, 255, .25);
+            opacity: 0
+        }
+        
+        .r1 {
+            inset: 6%;
+            animation: spin 2.2s linear infinite, ringIn .6s ease .1s forwards
+        }
+        
+        .r2 {
+            inset: -2%;
+            border-top-color: rgba(120, 180, 255, .7);
+            animation: spin 3.4s linear infinite reverse, ringIn .6s ease .3s forwards
+        }
+        
+        .sweep {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(105deg, transparent 40%, rgba(120, 180, 255, .35) 50%, transparent 60%);
+            transform: translateX(-120%);
+            animation: sweep 1.2s ease 1.8s forwards;
+            mix-blend-mode: screen;
+            pointer-events: none
+        }
+        
+        .loader {
+            width: min(260px, 60vw);
+            height: 3px;
+            background: rgba(255, 255, 255, .12);
+            border-radius: 3px;
+            margin: 18px auto 0;
+            overflow: hidden
+        }
+        
+        .loader i {
+            display: block;
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #1a56db, #6fb1ff);
+            animation: load 3.2s ease forwards
+        }
+        
+        @keyframes logoIn {
+            to {
+                opacity: 1;
+                transform: scale(1);
+                filter: blur(0)
+            }
+        }
+        
+        @keyframes ringIn {
+            to {
+                opacity: 1
+            }
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+        
+        @keyframes sweep {
+            to {
+                transform: translateX(120%)
+            }
+        }
+        
+        @keyframes load {
+            to {
+                width: 100%
+            }
+        }
+        /* ===== Corner logo + dock nav ===== */
+        
+        .corner-logo {
+            position: fixed;
+            top: 14px;
+            right: 18px;
+            z-index: 60;
+            width: 58px;
+            height: 58px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #02050d;
+            box-shadow: 0 6px 20px rgba(26, 86, 219, .28);
+            border: 1px solid rgba(59, 139, 255, .35);
+            transition: .25s
+        }
+        
+        .corner-logo:hover {
+            transform: scale(1.07)
+        }
+        
+        .corner-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 3px
+        }
+        
+        .dock {
+            position: fixed;
+            top: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 55
+        }
+        
+        .dock nav {
+            display: flex;
+            gap: 4px;
+            padding: 6px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .82);
+            backdrop-filter: blur(14px);
+            border: 1px solid var(--line);
+            box-shadow: 0 8px 28px rgba(26, 86, 219, .14)
+        }
+        
+        .dock a {
+            padding: 9px 20px;
+            border-radius: 999px;
+            font-size: .92rem;
+            color: var(--muted);
+            transition: .2s;
+            white-space: nowrap
+        }
+        
+        .dock a:hover {
+            color: var(--blue)
+        }
+        
+        .dock a.active {
+            background: var(--blue);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(26, 86, 219, .3)
+        }
+        /* ===== Sections ===== */
+        
+        section {
+            scroll-margin-top: 20px
+        }
+        
+        .hero {
+            padding: 170px 6vw 100px;
+            text-align: center;
+            background: radial-gradient(ellipse at 50% 0%, #e4eeff 0%, #fff 65%)
+        }
+        
+        .eyebrow {
+            letter-spacing: .3em;
+            font-size: .8rem;
+            color: var(--blue-2);
+            text-transform: uppercase
+        }
+        
+        .hero h2 {
+            font-size: clamp(2.4rem, 6vw, 4.2rem);
+            line-height: 1.1;
+            margin: 14px 0 18px
+        }
+        
+        .hero h2 span {
+            color: var(--blue)
+        }
+        
+        .lead {
+            max-width: 620px;
+            margin: 0 auto;
+            color: var(--muted);
+            font-size: 1.1rem
+        }
+        
+        .cta {
+            margin-top: 30px;
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap
+        }
+        
+        .btn {
+            padding: 12px 28px;
+            border-radius: 999px;
+            font-weight: 600;
+            border: 0;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: .25s;
+            font-family: inherit
+        }
+        
+        .btn.primary {
+            background: var(--blue);
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(26, 86, 219, .25)
+        }
+        
+        .btn.primary:hover {
+            transform: translateY(-2px);
+            background: #1445b4
+        }
+        
+        .btn.ghost {
+            border: 1.5px solid var(--blue);
+            color: var(--blue);
+            background: transparent
+        }
+        
+        .btn.ghost:hover {
+            background: var(--blue);
+            color: #fff
+        }
+        
+        .section {
+            padding: 90px 6vw
+        }
+        
+        .section.alt {
+            background: var(--alt)
+        }
+        
+        .title {
+            font-size: 1.8rem;
+            margin-bottom: 34px;
+            text-align: center
+        }
+        
+        .title::after {
+            content: "";
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: var(--blue-2);
+            margin: 10px auto 0;
+            border-radius: 3px
+        }
+        
+        .about-grid {
+            max-width: 900px;
+            margin: auto;
+            display: grid;
+            gap: 30px;
+            grid-template-columns: 1.3fr 1fr;
+            align-items: center
+        }
+        
+        .about-grid p {
+            color: var(--muted)
+        }
+        
+        .facts {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px
+        }
+        
+        .facts li {
+            background: var(--alt);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center
+        }
+        
+        .facts b {
+            display: block;
+            font-size: 1.7rem;
+            color: var(--blue)
+        }
+        
+        .facts span {
+            font-size: .8rem;
+            color: var(--muted)
+        }
+        
+        .cards {
+            max-width: 1100px;
+            margin: auto;
+            display: grid;
+            gap: 18px;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr))
+        }
+        
+        .card {
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 20px;
+            transition: .25s;
+            opacity: 0;
+            transform: translateY(16px)
+        }
+        
+        .card.in {
+            opacity: 1;
+            transform: none
+        }
+        
+        .card:hover {
+            border-color: var(--blue-2);
+            box-shadow: 0 10px 26px rgba(26, 86, 219, .12);
+            transform: translateY(-3px)
+        }
+        
+        .card h4 {
+            font-size: 1rem;
+            margin-bottom: 6px
+        }
+        
+        .card p {
+            font-size: .88rem;
+            color: var(--muted)
+        }
+        /* ===== Project concepts ===== */
+        
+        .projects {
+            background: linear-gradient(180deg, #fff, #f3f7ff)
+        }
+        
+        .proj-head {
+            max-width: 1100px;
+            margin: 0 auto 34px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 30px;
+            flex-wrap: wrap
+        }
+        
+        .proj-title {
+            font-size: clamp(2rem, 4.5vw, 3.2rem);
+            font-weight: 800;
+            color: var(--ink);
+            letter-spacing: -.02em
+        }
+        
+        .proj-sub {
+            max-width: 480px;
+            color: var(--muted)
+        }
+        
+        .proj-bar {
+            max-width: 1100px;
+            margin: 0 auto 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap
+        }
+        
+        .chips {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap
+        }
+        
+        .chip {
+            border: 1.5px solid var(--line);
+            background: #fff;
+            color: var(--muted);
+            padding: 9px 18px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: .92rem;
+            font-family: inherit;
+            transition: .2s
+        }
+        
+        .chip:hover {
+            border-color: var(--blue-2);
+            color: var(--blue)
+        }
+        
+        .chip.active {
+            background: var(--blue);
+            border-color: var(--blue);
+            color: #fff;
+            font-weight: 600
+        }
+        
+        #search {
+            border: 1.5px solid var(--line);
+            background: #fff;
+            padding: 12px 18px;
+            border-radius: 12px;
+            min-width: 240px;
+            font-size: .95rem;
+            font-family: inherit;
+            color: var(--ink);
+            outline: none
+        }
+        
+        #search:focus {
+            border-color: var(--blue-2);
+            box-shadow: 0 0 0 3px rgba(59, 139, 255, .15)
+        }
+        
+        .proj-bar.second {
+            margin-bottom: 10px
+        }
+        
+        .count {
+            color: var(--muted);
+            font-size: .92rem
+        }
+        
+        .view-toggle {
+            display: flex;
+            gap: 8px
+        }
+        
+        .vt {
+            border: 1.5px solid var(--line);
+            background: #fff;
+            color: var(--muted);
+            padding: 8px 18px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: .9rem;
+            transition: .2s
+        }
+        
+        .vt.active {
+            background: var(--blue);
+            border-color: var(--blue);
+            color: #fff;
+            font-weight: 600
+        }
+        
+        .depth {
+            position: relative;
+            max-width: 1100px;
+            margin: 10px auto 0;
+            height: 480px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+        
+        .stage {
+            position: absolute;
+            inset: 0;
+            perspective: 1200px;
+            transform-style: preserve-3d
+        }
+        
+        .arrow {
+            position: relative;
+            z-index: 200;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 1.5px solid var(--line);
+            background: #fff;
+            color: var(--blue);
+            font-size: 1.9rem;
+            line-height: 1;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(26, 86, 219, .15);
+            transition: .2s
+        }
+        
+        .arrow:hover:not(:disabled) {
+            background: var(--blue);
+            color: #fff
+        }
+        
+        .arrow:disabled {
+            opacity: .35;
+            cursor: default
+        }
+        
+        .pcard {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 340px;
+            height: 400px;
+            margin: -200px 0 0 -170px;
+            padding: 26px;
+            border-radius: 20px;
+            background: linear-gradient(160deg, #ffffff, #eaf1ff);
+            border: 1px solid var(--line);
+            border-top: 4px solid var(--blue-2);
+            box-shadow: 0 22px 50px rgba(26, 86, 219, .18);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform .6s cubic-bezier(.2, .8, .2, 1), opacity .5s ease, filter .5s ease
+        }
+        
+        .pcard .num {
+            position: absolute;
+            top: 10px;
+            right: 18px;
+            font-size: 3.6rem;
+            font-weight: 800;
+            color: rgba(59, 139, 255, .2);
+            line-height: 1
+        }
+        
+        .pcard .meta {
+            margin-top: 4px;
+            font-size: .82rem;
+            font-weight: 600;
+            color: var(--blue-2)
+        }
+        
+        .pcard h4 {
+            font-size: 1.45rem;
+            line-height: 1.25;
+            margin: 10px 0 12px;
+            color: var(--ink)
+        }
+        
+        .pcard p {
+            color: var(--muted);
+            font-size: .95rem;
+            flex: 1
+        }
+        
+        .pcard .foot {
+            border-top: 1px solid var(--line);
+            padding-top: 14px;
+            font-size: .75rem;
+            letter-spacing: .15em;
+            color: var(--muted);
+            text-transform: uppercase;
+            display: flex;
+            justify-content: space-between
+        }
+        
+        .pcard .foot em {
+            font-style: normal;
+            color: var(--blue);
+            font-weight: 700
+        }
+        
+        .pcard.upcoming {
+            border-top-color: #f59e0b
+        }
+        
+        .pcard.upcoming .foot em {
+            color: #d97706
+        }
+        
+        .groups .card .meta {
+            font-size: .78rem;
+            font-weight: 600;
+            color: var(--blue-2);
+            margin-bottom: 6px
+        }
+        
+        .groups .card .badge {
+            display: inline-block;
+            margin-top: 10px;
+            font-size: .7rem;
+            letter-spacing: .08em;
+            padding: 3px 10px;
+            border-radius: 999px;
+            background: #e8f0ff;
+            color: var(--blue)
+        }
+        
+        .groups .card .badge.up {
+            background: #fff3dc;
+            color: #b45309
+        }
+        
+        .chips.sub {
+            max-width: 1100px;
+            margin: 0 auto 18px;
+            padding: 14px;
+            border-radius: 16px;
+            background: #fff;
+            border: 1px dashed var(--line)
+        }
+        
+        .chip.small {
+            padding: 6px 14px;
+            font-size: .82rem
+        }
+        
+        .pcard.long h4 {
+            font-size: 1.1rem;
+            line-height: 1.35
+        }
+        
+        .groups {
+            max-width: 1100px;
+            margin: 10px auto 0
+        }
+        
+        .grp {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.05rem;
+            color: var(--ink);
+            margin: 30px 0 14px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--line)
+        }
+        
+        .grp:first-child {
+            margin-top: 6px
+        }
+        
+        .grp span {
+            font-size: .75rem;
+            font-weight: 600;
+            color: var(--blue);
+            background: #e8f0ff;
+            border-radius: 999px;
+            padding: 2px 10px
+        }
+        
+        .groups .cards {
+            max-width: none
+        }
+        /* ===== Upcoming (sidebar + cards) ===== */
+        
+        .up-wrap {
+            max-width: 1150px;
+            margin: 30px auto 0;
+            display: grid;
+            grid-template-columns: 270px 1fr;
+            gap: 26px;
+            align-items: start
+        }
+        
+        .up-side {
+            position: sticky;
+            top: 90px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 12px;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            box-shadow: 0 14px 36px rgba(26, 86, 219, .08);
+            max-height: 75vh;
+            overflow-y: auto
+        }
+        
+        .up-cat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            text-align: left;
+            border: 0;
+            background: transparent;
+            padding: 10px 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: .88rem;
+            color: var(--muted);
+            transition: .2s
+        }
+        
+        .up-cat:hover {
+            background: var(--alt);
+            color: var(--blue)
+        }
+        
+        .up-cat.active {
+            background: var(--blue);
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 6px 14px rgba(26, 86, 219, .25)
+        }
+        
+        .up-cat b {
+            flex: none;
+            font-size: .72rem;
+            min-width: 26px;
+            text-align: center;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: #e8f0ff;
+            color: var(--blue)
+        }
+        
+        .up-cat.active b {
+            background: rgba(255, 255, 255, .22);
+            color: #fff
+        }
+        
+        #up-search {
+            width: 100%;
+            border: 1.5px solid var(--line);
+            background: #fff;
+            padding: 13px 18px;
+            border-radius: 12px;
+            font-size: .95rem;
+            font-family: inherit;
+            color: var(--ink);
+            outline: none
+        }
+        
+        #up-search:focus {
+            border-color: var(--blue-2);
+            box-shadow: 0 0 0 3px rgba(59, 139, 255, .15)
+        }
+        
+        .up-main .count {
+            margin: 12px 2px 14px
+        }
+        
+        .up-grid {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr))
+        }
+        
+        .up-card {
+            position: relative;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-left: 4px solid #f59e0b;
+            border-radius: 16px;
+            padding: 20px 18px 16px;
+            cursor: pointer;
+            transition: .25s;
+            display: flex;
+            flex-direction: column;
+            gap: 10px
+        }
+        
+        .up-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--blue-2);
+            border-left-color: #f59e0b;
+            box-shadow: 0 14px 30px rgba(26, 86, 219, .14)
+        }
+        
+        .up-tag {
+            align-self: flex-start;
+            font-size: .7rem;
+            font-weight: 600;
+            letter-spacing: .04em;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: #fff3dc;
+            color: #b45309
+        }
+        
+        .up-card h4 {
+            font-size: .95rem;
+            line-height: 1.45;
+            color: var(--ink);
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden
+        }
+        
+        .up-card.open h4 {
+            display: block;
+            -webkit-line-clamp: unset
+        }
+        
+        .up-foot {
+            display: flex;
+            justify-content: space-between;
+            font-size: .72rem;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            border-top: 1px solid var(--line);
+            padding-top: 10px;
+            margin-top: auto
+        }
+        
+        .up-foot em {
+            font-style: normal;
+            color: #d97706;
+            font-weight: 700
+        }
+        
+        .up-num {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: rgba(245, 158, 11, .18)
+        }
+        /* ===== Enquiry form ===== */
+        
+        .form {
+            max-width: 560px;
+            margin: 0 auto 24px;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 14px 36px rgba(26, 86, 219, .08);
+            display: grid;
+            gap: 16px
+        }
+        
+        .form label {
+            display: grid;
+            gap: 6px;
+            font-size: .9rem;
+            font-weight: 600;
+            color: var(--ink)
+        }
+        
+        .form input,
+        .form textarea {
+            border: 1.5px solid var(--line);
+            border-radius: 12px;
+            padding: 12px 14px;
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+            color: var(--ink);
+            resize: vertical
+        }
+        
+        .form input:focus,
+        .form textarea:focus {
+            border-color: var(--blue-2);
+            box-shadow: 0 0 0 3px rgba(59, 139, 255, .15)
+        }
+        
+        .form .invalid {
+            border-color: #e5484d
+        }
+        
+        .form-note {
+            font-size: .82rem;
+            color: var(--muted);
+            text-align: center
+        }
+        
+        .gmail-link {
+            font-size: .85rem;
+            color: var(--blue);
+            text-align: center;
+            text-decoration: underline
+        }
+        
+        .center {
+            text-align: center
+        }
+        
+        .muted {
+            color: var(--muted);
+            margin-top: 8px
+        }
+        
+        footer {
+            text-align: center;
+            padding: 26px;
+            font-size: .85rem;
+            color: var(--muted);
+            border-top: 1px solid var(--line)
+        }
+        
+        @media(max-width:800px) {
+            .dock {
+                top: 78px
+            }
+            .dock nav {
+                overflow-x: auto;
+                max-width: 94vw
+            }
+            .dock a {
+                padding: 8px 14px;
+                font-size: .85rem
+            }
+            .hero {
+                padding-top: 190px
+            }
+            .about-grid {
+                grid-template-columns: 1fr
+            }
+            .depth {
+                height: 460px
+            }
+            .pcard {
+                width: 280px;
+                margin-left: -140px
+            }
+            .arrow {
+                width: 42px;
+                height: 42px;
+                font-size: 1.5rem
+            }
+            #search {
+                width: 100%
+            }
+            .up-wrap {
+                grid-template-columns: 1fr
+            }
+            .up-side {
+                position: static;
+                flex-direction: row;
+                overflow-x: auto;
+                max-height: none;
+                border-radius: 999px;
+                padding: 8px
+            }
+            .up-cat {
+                white-space: nowrap;
+                border-radius: 999px
+            }
+        }
+    </style>
+</head>
+
+<body class="loading">
+
+    <!-- ===== Intro animation (uses log.png) ===== -->
+    <div id="intro">
+        <div class="intro-inner">
+            <div class="logo-wrap">
+                <span class="ring r1"></span>
+                <span class="ring r2"></span>
+                <img src="log.png" alt="Nexora Solutions" class="intro-logo">
+                <span class="sweep"></span>
+            </div>
+            <div class="loader"><i></i></div>
+        </div>
+    </div>
+
+    <!-- ===== Logo (top right) ===== -->
+    <a href="#home" class="corner-logo" aria-label="Nexora Solutions">
+        <img src="log.png" alt="Nexora Solutions">
+    </a>
+
+    <!-- ===== Floating pill navigation ===== -->
+    <header class="dock">
+        <nav id="dock-nav">
+            <a href="#home" class="active">Home</a>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#projects">Projects Done</a>
+            <a href="#upcoming">Upcoming</a>
+            <a href="#contact">Enquiry</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero -->
+        <section id="home" class="hero">
+            <p class="eyebrow">Ideas | Technology | Impact</p>
+            <h2>Your Vision.<br><span>Our Technology.</span></h2>
+            <p class="lead">Nexora Solutions is a technology consulting and product engineering company building software, AI/ML, IoT and applied-research solutions.</p>
+            <div class="cta">
+                <a href="#projects" class="btn primary">View Projects</a>
+                <a href="#contact" class="btn ghost">Send Enquiry</a>
+            </div>
+        </section>
+
+        <!-- About -->
+        <section id="about" class="section">
+            <h3 class="title">About Us</h3>
+            <div class="about-grid">
+                <p>Founded in May 2025 and led by <b>Dr. L. Ganesh</b>, Nexora Solutions works across Tamil Nadu, Bengaluru and Andhra Pradesh. Ideas are framed as real problems, technology is built to fit the need, and impact is measured against agreed
+                    goals.</p>
+                <ul class="facts">
+                    <li><b>2025</b><span>Founded</span></li>
+                    <li><b>27</b><span>Projects Done</span></li>
+                    <li><b>3</b><span>Regions</span></li>
+                    <li><b>1</b><span>Granted Patent</span></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Services -->
+        <section id="services" class="section alt">
+            <h3 class="title">What We Do</h3>
+            <div class="cards" id="services-list"></div>
+        </section>
+
+        <!-- Project concepts -->
+        <section id="projects" class="section projects">
+            <div class="proj-head">
+                <h3 class="proj-title">Projects Done</h3>
+                <p class="proj-sub">27 completed projects across agriculture, energy, health, logistics, SaaS and more. Filter by region or search by topic.</p>
+            </div>
+
+            <div class="proj-bar">
+                <div class="chips" id="chips"></div>
+                <input type="search" id="search" placeholder="Search, e.g. battery, voice…">
+            </div>
+
+            <div class="proj-bar second">
+                <p id="count" class="count"></p>
+                <div class="view-toggle">
+                    <button class="vt active" data-view="depth">Depth view</button>
+                    <button class="vt" data-view="grid">Grid view</button>
+                </div>
+            </div>
+
+            <div class="depth" id="depth">
+                <button class="arrow" id="prev" aria-label="Previous">&#8249;</button>
+                <div class="stage" id="stage"></div>
+                <button class="arrow" id="next" aria-label="Next">&#8250;</button>
+            </div>
+            <div class="groups hidden" id="grid"></div>
+            <p id="empty" class="center muted hidden">No projects match your search.</p>
+        </section>
+
+        <!-- Upcoming projects -->
+        <section id="upcoming" class="section">
+            <h3 class="title">Upcoming Projects</h3>
+            <p id="topic-count" class="center muted"></p>
+
+            <div class="up-wrap">
+                <aside class="up-side" id="up-side"></aside>
+                <div class="up-main">
+                    <input type="search" id="up-search" placeholder="Search upcoming topics, e.g. irrigation, EV, drone…">
+                    <p id="up-showing" class="count"></p>
+                    <div class="up-grid" id="up-grid"></div>
+                    <p id="up-empty" class="center muted hidden">No topics match your search.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Enquiry -->
+        <section id="contact" class="section alt">
+            <h3 class="title">Send an Enquiry</h3>
+            <form id="enquiry" class="form" novalidate>
+                <label>Name
+        <input type="text" id="f-name" placeholder="Your name" required>
+      </label>
+                <label>Email
+        <input type="email" id="f-email" placeholder="you@example.com" required>
+      </label>
+                <label>What do you want?
+        <textarea id="f-msg" rows="5" placeholder="Tell us about your idea or requirement" required></textarea>
+      </label>
+                <button type="submit" class="btn primary">Send</button>
+                <p class="form-note" id="form-note">Clicking Send opens your email app with the message ready to go to Nexora Solutions.</p>
+                <a href="#" id="gmail-link" class="gmail-link">No email app? Open in Gmail instead</a>
+            </form>
+            <p class="center muted">nexorasolutionsadmin@gmail.com · Tamil Nadu, India</p>
+        </section>
+    </main>
+
+    <footer>© 2026 Nexora Solutions · Ideas | Technology | Impact</footer>
+
+    <script>
+        const EMAIL = "nexorasolutionsadmin@gmail.com";
+
+        // ===== Data (edit freely) =====
+        const services = [
+            ["Software & Product Engineering", "Requirements, architecture, testing and deployment."],
+            ["Web & Mobile Apps", "Responsive web apps, Android and cross-platform apps."],
+            ["AI & Machine Learning", "Data preparation, model development and inference services."],
+            ["Data Engineering & Analytics", "Pipelines, databases, dashboards and reporting."],
+            ["IoT & Embedded Systems", "Sensors, firmware, gateways and telemetry."],
+            ["Cloud & Integration", "Containerised deployment, CI/CD and monitoring."],
+            ["Industrial Automation", "Condition monitoring, alerting and maintenance records."],
+            ["EV & Battery Technology", "Telemetry, health estimation and charging schedules."],
+            ["AR/VR & 3D Visualisation", "3D assets, web/mobile viewers and AR placement."],
+            ["Prototyping & Applied Research", "Proofs of concept, benchmarking and feasibility."],
+            ["Innovation & IP Support", "Invention disclosures, drawings and docketing support."],
+            ["Startup & SME Consulting", "Problem validation, MVP scoping and tech selection."]
+        ];
+
+        // [title, region, domain, description, status]
+        const TN = "Tamil Nadu",
+            BLR = "Bengaluru",
+            AP = "Andhra Pradesh",
+            MR = "Multi-region",
+            UP = "Upcoming";
+        const done = [
+            ["AI-Based Crop Disease Triage", TN, "AgriTech", "Photo-based crop issue screening, confidence-scored classification and a field-agent review queue.", "done"],
+            ["Smart Irrigation Scheduling", TN, "ClimateTech", "Soil-moisture and weather inputs support per-plot irrigation recommendations with manual override.", "done"],
+            ["EV Battery Health Dashboard", TN, "Mobility & Energy", "Battery telemetry, state-of-health trends, threshold alerts and maintenance logging.", "done"],
+            ["Construction Plot Visualisation Platform", TN, "PropTech / AR/VR", "Plot-status layers with linked 3D building concepts, browser viewing and AR placement.", "done"],
+            ["Smart Export Documentation Assistant", TN, "TradeTech", "Product- and destination-specific document checklists, readiness checks and shipment-stage tracking.", "done"],
+            ["Clinic Appointment and Queue Management", TN, "HealthTech", "Appointment booking, live queue status, reminders and daily utilisation reporting.", "done"],
+            ["Local-Language Learning Companion", TN, "EdTech", "Bilingual practice modules, vocabulary/listening exercises and learner progress tracking.", "done"],
+            ["Factory Machine Anomaly Monitor", TN, "Industrial IoT", "Vibration and temperature monitoring with anomaly alerts and machine history.", "done"],
+            ["Water-Quality Monitoring Dashboard", TN, "CleanTech", "Multi-parameter probe readings, threshold alerts, site reports and calibration records.", "done"],
+            ["Food Inventory and Expiry Tracker", TN, "RetailTech", "Batch-level inventory, expiry prompts, reorder planning and stock reports.", "done"],
+            ["AI Customer Feedback Classifier", TN, "AI / SaaS", "Topic and emotion classification with trend dashboards, comment drill-down and export.", "done"],
+            ["Solar Plant Performance Monitor", TN, "EnergyTech", "Expected-versus-actual generation analysis, fault alerts and maintenance records.", "done"],
+            ["Warehouse Slotting Optimiser", BLR, "Supply Chain", "Demand-aware item slotting, picking-path analysis and what-if comparisons.", "done"],
+            ["Developer API Observability Console", BLR, "DevTools", "Latency and error-rate dashboards, incident annotations and configurable alerts.", "done"],
+            ["Recruitment Skills-Matching Portal", BLR, "HRTech", "Skills extraction, explainable match scoring and recruiter review workflow.", "done"],
+            ["Retail Demand Forecasting Tool", BLR, "RetailTech", "SKU-level forecasts, seasonality handling, reorder suggestions and accuracy tracking.", "done"],
+            ["Cybersecurity Log Triage Assistant", BLR, "Cybersecurity", "Event grouping, anomaly scoring and analyst-priority queues with feedback.", "done"],
+            ["Meeting Action-Item Extractor", BLR, "Productivity SaaS", "Meeting summaries and proposed owners/dates for action items with human review.", "done"],
+            ["EV Fleet Charging Scheduler", BLR, "Mobility", "Charging schedules based on vehicle availability, battery state and operational demand.", "done"],
+            ["Precision Aquaculture Monitor", AP, "AgriTech", "Pond-water sensing, trend alerts and notifications for farm staff.", "done"],
+            ["Fisheries Cold-Chain Tracker", AP, "Logistics", "Temperature logging linked to shipment records, excursion alerts and traceability reports.", "done"],
+            ["Telugu Voice Service Assistant", AP, "Conversational AI", "Telugu speech interfaces for routine queries, human escalation and call summaries.", "done"],
+            ["Microfinance Document Workflow", AP, "FinTech Operations", "Application tracking, document checklist checks, approval steps and audit history.", "done"],
+            ["Small Manufacturer Quotation Tool", AP, "Manufacturing SaaS", "Bill-of-material costing, quotation generation and revision history.", "done"],
+            ["Road-Surface Issue Reporting App", AP, "CivicTech", "Photo/location capture, status tracking, priority scoring and map view.", "done"],
+            ["Pharmacy Stock Visibility System", MR, "Health Operations", "Cross-outlet stock reconciliation, low-stock alerts and transfer suggestions.", "done"],
+            ["SME Energy-Use Analytics Platform", MR, "Sustainability", "Meter-based load profiles, peak analysis and efficiency recommendations.", "done"],
+        ];
+
+        // Upcoming project topics, grouped by category (no codes / serial numbers)
+        const upcomingTopics = {
+            "Embedded": [
+                "Household Disaster Management Using A Fire And Gas Detection Multisensory Robot With SMS Notification Function",
+                "Electric Vehicle Charging And Temperature Monitoring System",
+                "EV Battery Monitoring System With Charger, Monitoring With Fire Protection",
+                "Power System Operational Impacts Of Electric Vehicle Dynamic Wireless Charging",
+                "Intelligent Solar-Based Gesture-Controlled Wireless Wheelchair For The Physically Handicapped",
+                "LoRa Communication For Agriculture 4.0: Opportunities, Challenges, And Future Directions",
+                "Smart Door Lock Using Fingerprint Sensor And RFID",
+                "Smart Helmet Alcohol Detection To Avoid Accidents",
+                "Design And Evaluation Of A Solar-Powered Smart Irrigation System For Sustainable Urban Agriculture"
+            ],
+            "Embedded & IoT": [
+                "An IoT-Enabled Smart Safety Helmet For Enhancing Worker Protection On Construction Sites",
+                "An Internet Of Things Ecosystem For Atmospheric Water Generators",
+                "IoT-Based Automated Waste Segregation System",
+                "Automatic Pet Feeder With Solar PV System",
+                "Development Of A Smart Baby Cradle System Using IoT",
+                "Wearable Fall Detection Device For Stroke Warning Based On IoT Technology And Convolutional Neural Network",
+                "FreeRTOS Application In A Real-Time Air Quality Monitoring Architecture For Smart Campus",
+                "Internet Of Things-Based Smart Precision Farming In Soilless Agriculture: Opportunities And Challenges For Global Food Security",
+                "IoT-Based Noise Monitoring Using Mobile Nodes For Smart Cities",
+                "IoT-Based Smart Irrigation System Using Weather Forecasting",
+                "IoT-Based Smart Parking System",
+                "IoT-Based Smart Shopping Cart",
+                "Experimental Analysis Using IoT-Based Smart Power Quality Analyzer System With Remote Data Access And GSM Alerting Mechanism",
+                "Motor Vibration And Temperature Detector Using IoT",
+                "IoT-Enabled Adaptive Watering System With ARIMA-Based Soil Moisture Prediction For Smart Agriculture",
+                "IoT-Integrated Drip Irrigation Scheduling Using Weather Forecasts And Soil Moisture Data For Efficient Water Management",
+                "Smart Wearable Band For Proactive Bovine Health And Breeding Cycle Monitoring",
+                "Clothes Drying System Using IoT, AI, And Renewable Energy",
+                "IoT-Based Crack Detection In Civil Engineering Structures",
+                "Low-Cost LoRa-Based System For Continuous GHG Monitoring In Cattle: Enhancing Agricultural Sustainability",
+                "Non-Contact And Non-Intrusive Add-On IoT Device For Wireless Remote Elevator Control",
+                "Obstacle Detection And Warning System For The Visually Impaired Using IoT Sensors",
+                "Pollution-Based Traffic Control System Using IoT",
+                "Recent Trends In Localization, Routing, And Security For Wireless Sensor Networks",
+                "RFID-Based Elevator Access Control System",
+                "Smart Drone-Based Disaster Management System",
+                "IoT-Based Smart Irrigation And Controlling System",
+                "Smart Voting Using Fingerprint And Facial Recognition",
+                "Smart Waste Management And Classification System Using Advanced IoT And AI Technologies",
+                "Solar-Powered GPS-Based Wild Animal Tracking System",
+                "Remote Irrigation Control Based On LoRa Technology And Fuzzy PID Algorithm",
+                "The Internet Of Things In Elderly Healthcare Applications: A Systematic Review And Future Directions"
+            ],
+            "Embedded & Machine Learning": [
+                "Agri Guard: IoT-Powered Real-Time Object Detection and Alert System for Intelligent Surveillance",
+                "Drone-Based Precision Agriculture: Enhancing Crop Monitoring And Management",
+                "Precision Agriculture: UAV-Based Soil Mapping And Remote Sensing Applications",
+                "Unmanned Aerial Surveillance And Tracking System In Forest Areas For Poachers And Wildlife"
+            ],
+            "Quantum Technology Q-TRNG": [
+                "Quantum Superposition-Based True Random Number Generator (Q-TRNG) for Robust Bid Encryption and Fraud Prevention in Digital Tendering Systems",
+                "Quantum-Entropy (Q-TRNG) Architecture for Robust Anti-Hijacking and Secure Mission Data Retention in Defence UAVs"
+            ],
+            "Extended Reality (XR)": [
+                "An Extended Reality (XR)-Based Tactical Support System Integrating Edge-AI Threat Detection and a Distributed Sensor Network for High-Risk Operations",
+                "Extended Reality (XR)-Enabled Operative Support Framework Featuring On-Device AI Tumour Analysis and Continuous Vital-Sign Tracking"
+            ],
+            "Sense AI Wearable": [
+                "An iBeacon-Based AI-Driven Wearable Surveillance System for Tracking and Intercepting Forced Human Transport",
+                "AI-Powered iBeacon-Based Wearable System for Continuous Fetal and Maternal Health Monitoring and Real-Time Pregnancy Risk Detection"
+            ],
+            "AI-ML Laser Drone Defence System": [
+                "Economy-Safe AI & ML Driven LASER-Based Drone Threat Detection and Directed-Energy Alignment System for Public Infrastructure Protection",
+                "Economics Drives a Ray-Gun Resurgence: Lasers, Cheaper by the Shot, Should Work Well Against Drones and Cruise Missiles"
+            ],
+            "Biosecure SSO Cold Wallet": [
+                "Bio Lock: Biosecure Single Sign-On Cold Storage Architecture with Blockchain-Based Predicament Recovery"
+            ],
+            "Drawing Robot": [
+                "Autonomous Precision Drawing Robot for Automated Writing and Signature Reproduction Using Machine Learning"
+            ],
+            "Digital Pill ML": [
+                "Advanced AI-Powered Volatile Sensor Capsule for Continuous Monitoring of Drug Dissolution, Absorption, and Safety in Patients"
+            ],
+            "Neural Processing (NPU) for Smart EV Cells Management": [
+                "AI-Driven NPU-Enabled Battery Management for Electric Vehicles: Predictive Cell Voltage and Optimization Planning"
+            ],
+            "PEF - Pulse Electric Field": [
+                "Design of an Intelligent Pulse Electric Field System for an AI-Based Chemical-Free Preservation System"
+            ],
+            "Object Detection Conveyor": [
+                "An Intelligent Fruit Quality Assessment and Sorting System Using Machine Learning and Vision Sensors"
+            ]
+        };
+        const upcomingRows = Object.entries(upcomingTopics)
+            .flatMap(([cat, titles]) => titles.map(t => [t, UP, cat, "", "up"]));
+        const projects = done
+            .map((p, i) => ({
+                id: i + 1,
+                title: p[0],
+                region: p[1],
+                domain: p[2],
+                desc: p[3],
+                status: p[4]
+            }));
+
+        const regions = ["All", TN, BLR, AP, MR];
+        const categories = Object.keys(upcomingTopics);
+
+        // ===== Services =====
+        document.getElementById("services-list").innerHTML = services
+            .map(([t, d]) => `<div class="card"><h4>${t}</h4><p>${d}</p></div>`).join("");
+
+        // ===== Project concepts =====
+        let region = "All",
+            cat = "All",
+            query = "",
+            view = "depth",
+            current = 0,
+            list = [];
+        const stage = document.getElementById("stage");
+        const grid = document.getElementById("grid");
+        const pad = n => String(n).padStart(2, "0");
+
+        function renderChips() {
+            document.getElementById("chips").innerHTML = regions.map(r => {
+                const n = r === "All" ? projects.length : projects.filter(p => p.region === r).length;
+                return `<button class="chip ${r === region ? "active" : ""}" data-r="${r}">${r} (${n})</button>`;
+            }).join("");
+        }
+
+        function applyFilter() {
+            const q = query.trim().toLowerCase();
+            list = projects.filter(p =>
+                (region === "All" || p.region === region) &&
+                (!q || (p.title + p.domain + p.desc + p.region).toLowerCase().includes(q)));
+            current = 0;
+            document.getElementById("count").textContent =
+                `Showing ${list.length} of ${projects.length} project concepts`;
+            document.getElementById("empty").classList.toggle("hidden", list.length > 0);
+            renderChips();
+            build();
+        }
+
+        function build() {
+            stage.innerHTML = list.map((p, i) => {
+                const up = p.status === "up";
+                return `
+    <article class="pcard ${up ? "upcoming" : ""} ${p.title.length > 85 ? "long" : ""}" data-i="${i}">
+      <div class="meta">${up ? p.domain : p.region + " / " + p.domain}</div>
+      <h4>${p.title}</h4>
+      <p>${p.desc}</p>
+      <div class="foot"><span>Project concept</span><em>${up ? "Upcoming" : "Done"}</em></div>
+    </article>`;
+            }).join("");
+
+            // grid view: separate groups (region for finished work, category for upcoming topics)
+            const groupOf = p => (p.status === "up" ? p.domain : p.region);
+            let html = "",
+                last = null;
+            list.forEach(p => {
+                        const g = groupOf(p);
+                        if (g !== last) {
+                            if (last !== null) html += "</div>";
+                            const n = list.filter(x => groupOf(x) === g).length;
+                            html += `<h5 class="grp">${g}<span>${n}</span></h5><div class="cards">`;
+                            last = g;
+                        }
+                        const up = p.status === "up";
+                        html += `<div class="card in">
+      ${up ? "" : `<div class="meta">${p.domain}</div>`}
+      <h4>${p.title}</h4>${p.desc ? `<p>${p.desc}</p>` : ""}
+      <span class="badge ${up ? "up" : ""}">${up ? "UPCOMING" : "DONE"}</span>
+    </div>`;
+  });
+  if (last !== null) html += "</div>";
+  grid.innerHTML = html;
+  layout();
+}
+
+function layout() {
+  const cards = stage.querySelectorAll(".pcard");
+  cards.forEach((c, i) => {
+    const d = i - current;
+    if (d < 0) {
+      c.style.transform = "translateX(-160px) translateZ(-120px) scale(.85)";
+      c.style.opacity = 0; c.style.pointerEvents = "none";
+    } else {
+      const o = Math.max(0, 1 - d * 0.22);
+      c.style.transform = `translateX(${d * 62}px) translateZ(${-d * 90}px) rotateY(${d ? -6 : 0}deg) scale(${1 - d * 0.05})`;
+      c.style.opacity = d > 5 ? 0 : o;
+      c.style.zIndex = 100 - d;
+      c.style.filter = d ? `blur(${Math.min(d, 3) * .6}px)` : "none";
+      c.style.pointerEvents = d > 5 ? "none" : "auto";
+    }
+  });
+  document.getElementById("prev").disabled = current <= 0;
+  document.getElementById("next").disabled = current >= list.length - 1;
+}
+
+const go = n => { current = Math.max(0, Math.min(list.length - 1, n)); layout(); };
+
+document.getElementById("chips").addEventListener("click", e => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  region = b.dataset.r; applyFilter();
+});
+document.getElementById("search").addEventListener("input", e => { query = e.target.value; applyFilter(); });
+document.getElementById("prev").onclick = () => go(current - 1);
+document.getElementById("next").onclick = () => go(current + 1);
+stage.addEventListener("click", e => {
+  const c = e.target.closest(".pcard"); if (c) go(+c.dataset.i);
+});
+document.addEventListener("keydown", e => {
+  if (view !== "depth") return;
+  if (e.key === "ArrowRight") go(current + 1);
+  if (e.key === "ArrowLeft") go(current - 1);
+});
+// swipe
+let sx = null;
+stage.addEventListener("pointerdown", e => sx = e.clientX);
+stage.addEventListener("pointerup", e => {
+  if (sx === null) return;
+  const dx = e.clientX - sx; sx = null;
+  if (Math.abs(dx) > 50) go(current + (dx < 0 ? 1 : -1));
+});
+
+document.querySelectorAll(".vt").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".vt").forEach(x => x.classList.remove("active"));
+  b.classList.add("active"); view = b.dataset.view;
+  document.getElementById("depth").classList.toggle("hidden", view !== "depth");
+  grid.classList.toggle("hidden", view !== "grid");
+}));
+
+applyFilter();
+
+// ===== Upcoming projects (sidebar + cards) =====
+(function () {
+  const all = Object.entries(upcomingTopics).flatMap(([c, ts]) => ts.map(t => ({ c, t })));
+  all.forEach((x, i) => x.n = i + 1);
+  let ucat = "All", uq = "";
+  const side = document.getElementById("up-side");
+  const ugrid = document.getElementById("up-grid");
+
+  document.getElementById("topic-count").textContent =
+    `${all.length} topics across ${Object.keys(upcomingTopics).length} categories`;
+
+  function render() {
+    const q = uq.trim().toLowerCase();
+    const shown = all.filter(x => (ucat === "All" || x.c === ucat) && (!q || (x.t + x.c).toLowerCase().includes(q)));
+
+    side.innerHTML = ["All", ...Object.keys(upcomingTopics)].map(c => {
+      const n = c === "All" ? all.length : upcomingTopics[c].length;
+      return `<button class="up-cat ${c === ucat ? "active" : ""}" data-c="${c}"><span>${c}</span><b>${n}</b></button>`;
+    }).join("");
+
+    ugrid.innerHTML = shown.map(x => `
+      <article class="up-card">
+        <span class="up-num">${String(x.n).padStart(2, "0")}</span>
+        <span class="up-tag">${x.c}</span>
+        <h4>${x.t}</h4>
+        <div class="up-foot"><span>Project concept</span><em>Upcoming</em></div>
+      </article>`).join("");
+
+    document.getElementById("up-showing").textContent = `Showing ${shown.length} of ${all.length} topics`;
+    document.getElementById("up-empty").classList.toggle("hidden", shown.length > 0);
+  }
+
+  side.addEventListener("click", e => {
+    const b = e.target.closest(".up-cat"); if (!b) return;
+    ucat = b.dataset.c; render();
+  });
+  ugrid.addEventListener("click", e => {
+    const c = e.target.closest(".up-card"); if (c) c.classList.toggle("open");
+  });
+  document.getElementById("up-search").addEventListener("input", e => { uq = e.target.value; render(); });
+  render();
+})();
+
+// ===== Enquiry form -> email app =====
+const form = document.getElementById("enquiry");
+function mailParts() {
+  const name = document.getElementById("f-name").value.trim();
+  const email = document.getElementById("f-email").value.trim();
+  const msg = document.getElementById("f-msg").value.trim();
+  const subject = `Enquiry from ${name} - Nexora Solutions`;
+  const body = `Name: ${name}\nEmail: ${email}\n\nWhat I want:\n${msg}`;
+  return { name, email, msg, subject, body };
+}
+function valid() {
+  let ok = true;
+  ["f-name", "f-email", "f-msg"].forEach(id => {
+    const el = document.getElementById(id);
+    const bad = !el.value.trim() || (id === "f-email" && !/^\S+@\S+\.\S+$/.test(el.value.trim()));
+    el.classList.toggle("invalid", bad);
+    if (bad) ok = false;
+  });
+  return ok;
+}
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  if (!valid()) return;
+  const m = mailParts();
+  window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(m.subject)}&body=${encodeURIComponent(m.body)}`;
+});
+document.getElementById("gmail-link").addEventListener("click", e => {
+  e.preventDefault();
+  if (!valid()) return;
+  const m = mailParts();
+  window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}&su=${encodeURIComponent(m.subject)}&body=${encodeURIComponent(m.body)}`, "_blank");
+});
+
+// ===== Dock: active link on scroll =====
+const links = [...document.querySelectorAll("#dock-nav a")];
+const secs = links.map(a => document.querySelector(a.getAttribute("href")));
+function spy() {
+  let idx = 0;
+  secs.forEach((s, i) => { if (s.getBoundingClientRect().top < window.innerHeight * 0.4) idx = i; });
+  links.forEach((a, i) => a.classList.toggle("active", i === idx));
+}
+window.addEventListener("scroll", spy, { passive: true });
+
+// ===== Reveal cards + intro =====
+function observeCards() {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) { setTimeout(() => e.target.classList.add("in"), (i % 6) * 60); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll(".card:not(.in)").forEach(c => io.observe(c));
+}
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    document.getElementById("intro").classList.add("hide");
+    document.body.classList.remove("loading");
+    observeCards();
+  }, 3600);
+});
+    </script>
+</body>
+
+</html>
